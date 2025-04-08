@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Sign Up Form</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *:before, *:after {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #bac8ff;
+        }
+
+        .background {
+            width: 430px;
+            height: 620px;
+            position: absolute;
+            transform: translate(-50%,-50%);
+            left: 50%;
+            top: 50%;
+        }
+
+        .background .shape {
+            height: 200px;
+            width: 200px;
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .shape:first-child {
+            background: linear-gradient(
+                #1845ad,
+                #23a2f6
+            );
+            left: -80px;
+            top: -80px;
+        }
+
+        .shape:last-child {
+            background: linear-gradient(
+                to right,
+                #ff512f,
+                #f09819
+            );
+            right: -30px;
+            bottom: -80px;
+        }
+
+        form {
+            height: 620px;
+            width: 400px;
+            background-color: rgba(255,255,255,0.13);
+            position: absolute;
+            transform: translate(-50%,-50%);
+            top: 50%;
+            left: 50%;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.1);
+            box-shadow: 0 0 40px rgba(8,7,16,0.6);
+            padding: 50px 35px;
+        }
+
+        form * {
+            font-family: 'Poppins',sans-serif;
+            color: #2E3135;
+            letter-spacing: 0.5px;
+            outline: none;
+            border: none;
+        }
+
+        form h3 {
+            font-size: 32px;
+            font-weight: 500;
+            line-height: 42px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        input {
+            display: block;
+            height: 50px;
+            width: 100%;
+            background-color: rgba(255,255,255,0.07);
+            border-radius: 3px;
+            padding: 0 10px;
+            margin-top: 8px;
+            font-size: 14px;
+            font-weight: 300;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        ::placeholder {
+            color: #2E3135;
+        }
+
+        button {
+            margin-top: 40px;
+            width: 100%;
+            background-color: #ffffff;
+            color: #080710;
+            padding: 15px 0;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: rgba(255,255,255,0.3);
+            color: gray;
+        }
+
+        .login-link {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .login-link a {
+            color: #2E3135;
+            text-decoration: underline;
+        }
+
+        .terms {
+            margin-top: 15px;
+            font-size: 12px;
+            text-align: center;
+            color: #2E3135;
+        }
+
+        .error {
+            color: #ff3333;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <form id="signupForm">
+        <h3>Sign Up</h3>
+
+        <label for="fullname">Full Name</label>
+        <input type="text" placeholder="Enter your full name" id="fullname">
+        <div id="nameError" class="error"></div>
+
+        <label for="email">Email</label>
+        <input type="email" placeholder="Enter your email" id="email">
+        <div id="emailError" class="error"></div>
+
+        <label for="password">Password</label>
+        <input type="password" placeholder="Create password" id="password">
+        <div id="passwordError" class="error"></div>
+
+        <label for="confirm-password">Confirm Password</label>
+        <input type="password" placeholder="Confirm password" id="confirm-password">
+        <div id="confirmError" class="error"></div>
+
+        <button type="submit">Create Account</button>
+
+        <div class="login-link">
+            <a href="login.html">Already have an account? Login</a>
+        </div>
+
+        <div class="terms">
+            By signing up, you agree to our Terms of Service and Privacy Policy
+        </div>
+    </form>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Reset error messages
+            document.querySelectorAll('.error').forEach(error => error.style.display = 'none');
+            
+            const fullname = document.getElementById('fullname').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            let isValid = true;
+
+            // Validate full name
+            if (fullname.length < 3) {
+                document.getElementById('nameError').textContent = 'Name must be at least 3 characters long';
+                document.getElementById('nameError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validate email
+            if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+                document.getElementById('emailError').textContent = 'Please enter a valid email address';
+                document.getElementById('emailError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validate password
+            if (password.length < 6) {
+                document.getElementById('passwordError').textContent = 'Password must be at least 6 characters long';
+                document.getElementById('passwordError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validate confirm password
+            if (password !== confirmPassword) {
+                document.getElementById('confirmError').textContent = 'Passwords do not match';
+                document.getElementById('confirmError').style.display = 'block';
+                isValid = false;
+            }
+
+            if (isValid) {
+                // Store user data in localStorage
+                const userData = {
+                    fullname: fullname,
+                    email: email,
+                    password: password
+                };
+                
+                // Get existing users or initialize empty array
+                let users = JSON.parse(localStorage.getItem('users')) || [];
+                users.push(userData);
+                localStorage.setItem('users', JSON.stringify(users));
+                
+                // Redirect to login page
+                alert('Account created successfully! Please login.');
+                window.location.href = 'login.html';
+            }
+        });
+
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Reset error messages
+    document.querySelectorAll('.error').forEach(error => error.style.display = 'none');
+    
+    const fullname = document.getElementById('fullname').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
+    
+    let isValid = true;
+
+    // Validate full name
+    if (fullname.length < 3) {
+        document.getElementById('nameError').textContent = 'Name must be at least 3 characters long';
+        document.getElementById('nameError').style.display = 'block';
+        isValid = false;
+    }
+
+    // Validate email
+    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+        document.getElementById('emailError').textContent = 'Please enter a valid email address';
+        document.getElementById('emailError').style.display = 'block';
+        isValid = false;
+    }
+
+    // Validate password
+    if (password.length < 6) {
+        document.getElementById('passwordError').textContent = 'Password must be at least 6 characters long';
+        document.getElementById('passwordError').style.display = 'block';
+        isValid = false;
+    }
+
+    // Validate confirm password
+    if (password !== confirmPassword) {
+        document.getElementById('confirmError').textContent = 'Passwords do not match';
+        document.getElementById('confirmError').style.display = 'block';
+        isValid = false;
+    }
+
+    if (isValid) {
+        // Store user data in localStorage
+        const userData = {
+            fullname: fullname,
+            email: email,
+            password: password
+        };
+        
+        // Get existing users or initialize empty array
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        users.push(userData);
+        localStorage.setItem('users', JSON.stringify(users));
+        
+        // Store current user data
+        localStorage.setItem('currentUser', JSON.stringify(userData));
+        
+        // Redirect to user menu page
+        alert('Account created successfully!');
+        window.location.href = 'PROJECT.HTML';
+    }
+}); 
+    </script>
+</body>
+</html>

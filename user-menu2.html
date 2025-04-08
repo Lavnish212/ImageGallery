@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Image Editor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .post-image {
+            position: relative;
+            aspect-ratio: 1;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .post-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s, filter 0.3s;
+        }
+
+        .post-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .edit-overlay {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            padding: 10px;
+            display: flex;
+            opacity: 0;
+            transition: opacity 0.3s;
+            gap: 10px;
+            align-items: center;
+            border-top-left-radius: 10px;
+        }
+
+        .post-image:hover .edit-overlay {
+            opacity: 1;
+        }
+
+        .filter-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .filter-content {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .filter-btn {
+            padding: 6px 12px;
+            border: 2px solid #e0e0e0;
+            background-color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.8em;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        #drawingCanvas {
+            border: 1px solid #ccc;
+            cursor: crosshair;
+            width: 100%;
+            max-height: 300px;
+            background-color: #f9f9f9;
+        }
+
+        .drawing-tools {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .modal-buttons button {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 0.9em;
+        }
+
+        #saveBtn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        #saveBtn:hover {
+            background-color: #218838;
+        }
+
+        #closeModalBtn {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        #closeModalBtn:hover {
+            background-color: #545b62;
+        }
+    </style>
+    <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="posts-container">
+            <div class="post-image" data-index="0">
+                <img src="navreet.jpg" alt="">
+                <div class="edit-overlay">
+                    <button class="btn btn-sm btn-outline-light edit-btn"><iconify-icon icon="line-md:edit-full-filled"></iconify-icon></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Modal -->
+    <div class="filter-modal" id="filterModal">
+        <div class="filter-content">
+            <h3>Edit Image</h3>
+            
+            <div class="row mb-2">
+                <div class="col">
+                    <h4>Filters</h4>
+                    <div class="filter-buttons" id="filterButtons">
+                        <button class="filter-btn" data-filter="none">None</button>
+                        <button class="filter-btn" data-filter="vintage">Vintage</button>
+                        <button class="filter-btn" data-filter="faded">Faded</button>
+                        <button class="filter-btn" data-filter="warmth">Warmth</button>
+                        <button class="filter-btn" data-filter="cool">Cool</button>
+                        <button class="filter-btn" data-filter="dramatic">Dramatic</button>
+                        <button class="filter-btn" data-filter="morning">Morning</button>
+                        <button class="filter-btn" data-filter="sunset">Sunset</button>
+                        <button class="filter-btn" data-filter="forest">Forest</button>
+                        <button class="filter-btn" data-filter="desert">Desert</button>
+                        <button class="filter-btn" data-filter="noir">Noir</button>
+                        <button class="filter-btn" data-filter="clarity">Clarity</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col">
+                    <h4>Drawing Tools</h4>
+                    <div class="drawing-tools">
+                        <input type="color" id="colorPicker" class="form-control form-control-color">
+                        <button id="resetCanvasBtn" class="btn btn-outline-secondary">Reset Canvas</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col">
+                    <canvas id="drawingCanvas" width="800" height="600"></canvas>
+                </div>
+            </div>
+
+            <div class="modal-buttons">
+                <button id="saveBtn">Save Changes</button>
+                <button id="closeModalBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+   document.addEventListener('DOMContentLoaded', () => {
+    const filterModal = document.getElementById('filterModal');
+    const filterButtons = document.getElementById('filterButtons');
+    const editButtons = document.querySelectorAll('.edit-btn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const saveBtn = document.getElementById('saveBtn');  // Ensure this matches the HTML
+    const drawingCanvas = document.getElementById('drawingCanvas');
+    const ctx = drawingCanvas.getContext('2d');
+    const colorPicker = document.getElementById('colorPicker');
+    const resetCanvasBtn = document.getElementById('resetCanvasBtn');
+
+    // Filters dictionary
+    const filters = {
+        'vintage': 'sepia(40%) brightness(110%) contrast(95%)',
+        'faded': 'brightness(110%) contrast(90%) saturate(85%)',
+        'warmth': 'sepia(20%) brightness(105%) saturate(110%)',
+        'cool': 'hue-rotate(350deg) brightness(100%) saturate(90%)',
+        'dramatic': 'contrast(110%) brightness(110%) saturate(110%)',
+        'morning': 'brightness(105%) saturate(105%) hue-rotate(350deg)',
+        'sunset': 'sepia(30%) brightness(105%) saturate(120%)',
+        'forest': 'hue-rotate(340deg) saturate(110%) brightness(95%)',
+        'desert': 'sepia(20%) brightness(105%) contrast(105%) saturate(110%)',
+        'noir': 'grayscale(90%) contrast(120%) brightness(90%)',
+        'clarity': 'contrast(105%) brightness(105%) saturate(105%)',
+        'none': 'none'
+    };
+
+    let currentImage = null;
+    let originalImage = null;
+    let isDrawing = false;
+    let lastX = 0, lastY = 0;
+    let pressTimeout;
+    let currentFilter = 'none';
+
+    // Open modal
+    editButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const postImage = e.target.closest('.post-image');
+            currentImage = postImage.querySelector('img');
+            
+            // Load image to canvas
+            const tempImg = new Image();
+            tempImg.onload = () => {
+                drawingCanvas.width = tempImg.width;
+                drawingCanvas.height = tempImg.height;
+                ctx.drawImage(tempImg, 0, 0);
+                
+                // Store original image for reference
+                originalImage = tempImg;
+            };
+            tempImg.src = currentImage.src;
+
+            filterModal.style.display = 'flex';
+        });
+    });
+
+    // Close modal
+    closeModalBtn.addEventListener('click', () => {
+        filterModal.style.display = 'none';
+    });
+
+    // Filter buttons
+    filterButtons.addEventListener('click', (e) => {
+        const filterBtn = e.target.closest('.filter-btn');
+        if (filterBtn) {
+            // Remove active class from all buttons
+            filterButtons.querySelectorAll('.filter-btn').forEach(btn => 
+                btn.classList.remove('active'));
+            
+            // Add active class to clicked button
+            filterBtn.classList.add('active');
+
+            // Apply filter to canvas in real-time
+            const filter = filters[filterBtn.dataset.filter];
+            currentFilter = filterBtn.dataset.filter;
+            
+            // Redraw original image with filter
+            ctx.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
+            ctx.drawImage(originalImage, 0, 0);
+            
+            // Apply filter using CSS filter on canvas
+            drawingCanvas.style.filter = filter;
+        }
+    });
+
+    // Reset Canvas
+    resetCanvasBtn.addEventListener('click', () => {
+        // Clear canvas and redraw original image
+        ctx.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
+        ctx.drawImage(originalImage, 0, 0);
+        drawingCanvas.style.filter = 'none';
+        currentFilter = 'none';
+        
+        // Reset filter buttons
+        filterButtons.querySelectorAll('.filter-btn').forEach(btn => 
+            btn.classList.remove('active'));
+        filterButtons.querySelector('.filter-btn[data-filter="none"]').classList.add('active');
+    });
+
+    // Hard press drawing
+    drawingCanvas.addEventListener('mousedown', startDrawing);
+    drawingCanvas.addEventListener('mousemove', draw);
+    drawingCanvas.addEventListener('mouseup', stopDrawing);
+    drawingCanvas.addEventListener('mouseout', stopDrawing);
+
+    function startDrawing(e) {
+        pressTimeout = setTimeout(() => {
+            const rect = drawingCanvas.getBoundingClientRect();
+            lastX = e.clientX - rect.left;
+            lastY = e.clientY - rect.top;
+            
+            isDrawing = true;
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+        }, 200);  // 200ms hard press duration
+    }
+
+    function draw(e) {
+        if (!isDrawing) return;
+
+        const rect = drawingCanvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(x, y);
+        
+        ctx.strokeStyle = colorPicker.value;
+        ctx.lineWidth = 5;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+
+        lastX = x;
+        lastY = y;
+    }
+
+    function stopDrawing() {
+        clearTimeout(pressTimeout);
+        isDrawing = false;
+        ctx.beginPath();
+    }
+
+    // Save changes - Added console logging and direct modal closing
+    saveBtn.addEventListener('click', () => {
+        console.log('Save button clicked'); // Debug log
+        
+        // Verify the button exists
+        if (!saveBtn) {
+            console.error('Save button not found!');
+            return;
+        }
+
+        // Update image source with canvas content
+        currentImage.src = drawingCanvas.toDataURL();
+        
+        // Apply the current filter to the image
+        currentImage.style.filter = filters[currentFilter];
+        
+        // Explicitly set modal display to none
+        filterModal.style.display = 'none';
+        
+        console.log('Modal should be closed now'); // Debug log
+    });
+});
+    </script>
+</body>
+</html>

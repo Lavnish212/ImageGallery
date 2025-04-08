@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        /* Global Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Header Styles */
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+header nav ul li {
+  margin-right: 20px;
+}
+
+header nav ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Container Styles */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Profile Styles */
+.profile {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 20px;
+}
+
+.profile-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-info h3 {
+  margin: 0;
+}
+
+.profile-info p {
+  margin: 5px 0 0 0;
+}
+
+.edit-profile {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+/* Post Image Styles */
+.post-image {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.post-image img {
+  width: 100%;
+  height: auto;
+}
+
+.edit-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  padding: 10px;
+  display: flex;
+  opacity: 0;
+  transition: opacity 0.3s;
+  gap: 10px;
+  align-items: center;
+  border-top-left-radius: 5px;
+}
+
+.post-image:hover .edit-overlay {
+  opacity: 1;
+}
+
+/* Filter Modal Styles */
+.filter-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.filter-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.filter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.filter-btn {
+  padding: 6px 12px;
+  border: 2px solid #e0e0e0;
+  background-color: #fff;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 0.8em;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
+#drawingCanvas {
+  border: 1px solid #ccc;
+  cursor: crosshair;
+  width: 100%;
+  max-height: 300px;
+  background-color: #f9f9f9;
+}
+
+.drawing-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.modal-buttons button {
+  padding: 8px 15px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 0.9em;
+}
+
+#saveBtn {
+  background-color: #28a745;
+  color: #fff;
+}
+
+#saveBtn:hover {
+  background-color: #218838;
+}
+
+#closeModalBtn {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+#closeModalBtn:hover {
+  background-color: #545b62;
+}
+
+
+
+.profile-menu {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.profile-picture {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 20px;
+}
+
+.profile-picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.change-picture-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.profile-info h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.profile-info p {
+  margin: 5px 0 0 0;
+  color: #666;
+}
+
+.username-input,
+.name-input,
+.bio-input {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.edit-profile-btn-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.save-profile-btn,
+.cancel-profile-btn {
+  margin-left: 10px;
+  padding: 6px 12px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.cancel-profile-btn {
+  background-color: #6c757d;
+}
+    </style>
+
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Socials</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="profile-menu">
+            <div class="profile-picture">
+              <img src="profile.jpg" alt="Profile Picture" id="profilePicture">
+              <div class="change-picture-btn" onclick="changeProfilePicture()">
+                <i class="fas fa-plus"></i>
+              </div>
+            </div>
+            <div class="profile-info">
+              <h3 class="username-display" id="usernameDisplay">@sindhwani_saab</h3>
+              <input type="text" class="username-input" id="usernameInput" value="@sindhwani_saab" style="display: none;">
+              <p class="name-display" id="nameDisplay">Lavnish Kamboj</p>
+              <input type="text" class="name-input" id="nameInput" value="Lavnish Kamboj" style="display: none;">
+              <p class="bio-display" id="bioDisplay">adopt the pace of nature</p>
+              <textarea class="bio-input" id="bioInput" style="display: none;">adopt the pace of nature</textarea>
+              <div class="edit-profile-btn-container">
+                <button class="edit-profile-btn" id="editProfileBtn" onclick="toggleEditMode()">Edit profile</button>
+                <button class="save-profile-btn" id="saveProfileBtn" style="display: none;" onclick="saveProfileChanges()">Save Changes</button>
+                <button class="cancel-profile-btn" id="cancelProfileBtn" style="display: none;" onclick="cancelProfileChanges()">Cancel</button>
+              </div>
+            </div>
+          </div>
+
+        <div class="content">
+            <div class="post-image">
+                <img src="navreet.jpg" alt="Post Image">
+                <div class="edit-overlay">
+                    <button class="btn btn-sm btn-outline-light edit-btn"><iconify-icon icon="line-md:edit-full-filled"></iconify-icon></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Modal -->
+    <div class="filter-modal" id="filterModal">
+        <div class="filter-content">
+            <h3>Edit Image</h3>
+            
+            <div class="row mb-2">
+                <div class="col">
+                    <h4>Filters</h4>
+                    <div class="filter-buttons" id="filterButtons">
+                        <button class="filter-btn" data-filter="none">None</button>
+                        <button class="filter-btn" data-filter="vintage">Vintage</button>
+                        <button class="filter-btn" data-filter="faded">Faded</button>
+                        <button class="filter-btn" data-filter="warmth">Warmth</button>
+                        <button class="filter-btn" data-filter="cool">Cool</button>
+                        <button class="filter-btn" data-filter="dramatic">Dramatic</button>
+                        <button class="filter-btn" data-filter="morning">Morning</button>
+                        <button class="filter-btn" data-filter="sunset">Sunset</button>
+                        <button class="filter-btn" data-filter="forest">Forest</button>
+                        <button class="filter-btn" data-filter="desert">Desert</button>
+                        <button class="filter-btn" data-filter="noir">Noir</button>
+                        <button class="filter-btn" data-filter="clarity">Clarity</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col">
+                    <h4>Drawing Tools</h4>
+                    <div class="drawing-tools">
+                        <input type="color" id="colorPicker" class="form-control form-control-color">
+                        <button id="resetCanvasBtn" class="btn btn-outline-secondary">Reset Canvas</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col">
+                    <canvas id="drawingCanvas" width="800" height="600"></canvas>
+                </div>
+            </div>
+
+            <div class="modal-buttons">
+                <button id="saveBtn">Save Changes</button>
+                <button id="closeModalBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Your existing JavaScript code goes here
+        document.addEventListener('DOMContentLoaded', () => {
+    const filterModal = document.getElementById('filterModal');
+    const filterButtons = document.getElementById('filterButtons');
+    const editButtons = document.querySelectorAll('.edit-btn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const saveBtn = document.getElementById('saveBtn');  // Ensure this matches the HTML
+    const drawingCanvas = document.getElementById('drawingCanvas');
+    const ctx = drawingCanvas.getContext('2d');
+    const colorPicker = document.getElementById('colorPicker');
+    const resetCanvasBtn = document.getElementById('resetCanvasBtn');
+
+    // Filters dictionary
+    const filters = {
+        'vintage': 'sepia(40%) brightness(110%) contrast(95%)',
+        'faded': 'brightness(110%) contrast(90%) saturate(85%)',
+        'warmth': 'sepia(20%) brightness(105%) saturate(110%)',
+        'cool': 'hue-rotate(350deg) brightness(100%) saturate(90%)',
+        'dramatic': 'contrast(110%) brightness(110%) saturate(110%)',
+        'morning': 'brightness(105%) saturate(105%) hue-rotate(350deg)',
+        'sunset': 'sepia(30%) brightness(105%) saturate(120%)',
+        'forest': 'hue-rotate(340deg) saturate(110%) brightness(95%)',
+        'desert': 'sepia(20%) brightness(105%) contrast(105%) saturate(110%)',
+        'noir': 'grayscale(90%) contrast(120%) brightness(90%)',
+        'clarity': 'contrast(105%) brightness(105%) saturate(105%)',
+        'none': 'none'
+    };
+
+    let currentImage = null;
+    let originalImage = null;
+    let isDrawing = false;
+    let lastX = 0, lastY = 0;
+    let pressTimeout;
+    let currentFilter = 'none';
+
+    // Open modal
+    editButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const postImage = e.target.closest('.post-image');
+            currentImage = postImage.querySelector('img');
+            
+            // Load image to canvas
+            const tempImg = new Image();
+            tempImg.onload = () => {
+                drawingCanvas.width = tempImg.width;
+                drawingCanvas.height = tempImg.height;
+                ctx.drawImage(tempImg, 0, 0);
+                
+                // Store original image for reference
+                originalImage = tempImg;
+            };
+            tempImg.src = currentImage.src;
+
+            filterModal.style.display = 'flex';
+        });
+    });
+
+    // Close modal
+    closeModalBtn.addEventListener('click', () => {
+        filterModal.style.display = 'none';
+    });
+
+    // Filter buttons
+    filterButtons.addEventListener('click', (e) => {
+        const filterBtn = e.target.closest('.filter-btn');
+        if (filterBtn) {
+            // Remove active class from all buttons
+            filterButtons.querySelectorAll('.filter-btn').forEach(btn => 
+                btn.classList.remove('active'));
+            
+            // Add active class to clicked button
+            filterBtn.classList.add('active');
+
+            // Apply filter to canvas in real-time
+            const filter = filters[filterBtn.dataset.filter];
+            currentFilter = filterBtn.dataset.filter;
+            
+            // Redraw original image with filter
+            ctx.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
+            ctx.drawImage(originalImage, 0, 0);
+            
+            // Apply filter using CSS filter on canvas
+            drawingCanvas.style.filter = filter;
+        }
+    });
+
+    // Reset Canvas
+    resetCanvasBtn.addEventListener('click', () => {
+        // Clear canvas and redraw original image
+        ctx.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
+        ctx.drawImage(originalImage, 0, 0);
+        drawingCanvas.style.filter = 'none';
+        currentFilter = 'none';
+        
+        // Reset filter buttons
+        filterButtons.querySelectorAll('.filter-btn').forEach(btn => 
+            btn.classList.remove('active'));
+        filterButtons.querySelector('.filter-btn[data-filter="none"]').classList.add('active');
+    });
+
+    // Hard press drawing
+    drawingCanvas.addEventListener('mousedown', startDrawing);
+    drawingCanvas.addEventListener('mousemove', draw);
+    drawingCanvas.addEventListener('mouseup', stopDrawing);
+    drawingCanvas.addEventListener('mouseout', stopDrawing);
+
+    function startDrawing(e) {
+        pressTimeout = setTimeout(() => {
+            const rect = drawingCanvas.getBoundingClientRect();
+            lastX = e.clientX - rect.left;
+            lastY = e.clientY - rect.top;
+            
+            isDrawing = true;
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+        }, 200);  // 200ms hard press duration
+    }
+
+    function draw(e) {
+        if (!isDrawing) return;
+
+        const rect = drawingCanvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(x, y);
+        
+        ctx.strokeStyle = colorPicker.value;
+        ctx.lineWidth = 5;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+
+        lastX = x;
+        lastY = y;
+    }
+
+    function stopDrawing() {
+        clearTimeout(pressTimeout);
+        isDrawing = false;
+        ctx.beginPath();
+    }
+
+    // Save changes - Added console logging and direct modal closing
+    saveBtn.addEventListener('click', () => {
+        console.log('Save button clicked'); // Debug log
+        
+        // Verify the button exists
+        if (!saveBtn) {
+            console.error('Save button not found!');
+            return;
+        }
+
+        // Update image source with canvas content
+        currentImage.src = drawingCanvas.toDataURL();
+        
+        // Apply the current filter to the image
+        currentImage.style.filter = filters[currentFilter];
+        
+        // Explicitly set modal display to none
+        filterModal.style.display = 'none';
+        
+        console.log('Modal should be closed now'); // Debug log
+    });
+});
+
+
+
+
+
+
+
+const usernameDisplay = document.getElementById('usernameDisplay');
+  const usernameInput = document.getElementById('usernameInput');
+  const nameDisplay = document.getElementById('nameDisplay');
+  const nameInput = document.getElementById('nameInput');
+  const bioDisplay = document.getElementById('bioDisplay');
+  const bioInput = document.getElementById('bioInput');
+  const editProfileBtn = document.getElementById('editProfileBtn');
+  const saveProfileBtn = document.getElementById('saveProfileBtn');
+  const cancelProfileBtn = document.getElementById('cancelProfileBtn');
+  const profilePicture = document.getElementById('profilePicture');
+
+  let isEditMode = false;
+
+  function toggleEditMode() {
+    isEditMode = !isEditMode;
+    usernameDisplay.style.display = isEditMode ? 'none' : 'block';
+    usernameInput.style.display = isEditMode ? 'block' : 'none';
+    nameDisplay.style.display = isEditMode ? 'none' : 'block';
+    nameInput.style.display = isEditMode ? 'block' : 'none';
+    bioDisplay.style.display = isEditMode ? 'none' : 'block';
+    bioInput.style.display = isEditMode ? 'block' : 'none';
+    editProfileBtn.style.display = isEditMode ? 'none' : 'block';
+    saveProfileBtn.style.display = isEditMode ? 'block' : 'none';
+    cancelProfileBtn.style.display = isEditMode ? 'block' : 'none';
+  }
+
+  function saveProfileChanges() {
+    usernameDisplay.textContent = usernameInput.value;
+    nameDisplay.textContent = nameInput.value;
+    bioDisplay.textContent = bioInput.value;
+    toggleEditMode();
+  }
+
+  function cancelProfileChanges() {
+    usernameInput.value = usernameDisplay.textContent;
+    nameInput.value = nameDisplay.textContent;
+    bioInput.value = bioDisplay.textContent;
+    toggleEditMode();
+  }
+
+  function changeProfilePicture() {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.onchange = (event) => {
+      const file = event.target.files[0];
+      const imageUrl = URL.createObjectURL(file);
+      profilePicture.src = imageUrl;
+    };
+    fileInput.click();
+  }
+    </script>
+</body>
+</html>
