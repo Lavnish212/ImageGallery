@@ -30,6 +30,7 @@ header .navbar{
     gap:30px ;
     list-style:none;
     margin-right: 20px;
+    /* it is navbar; */
 }
 .navbar nav ul a{
     text-decoration: none;
