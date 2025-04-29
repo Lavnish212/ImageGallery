@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Signup</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: #ecf0f3;
+    }
+
+    .signup-container {
+      width: 350px;
+      padding: 40px;
+      margin: 60px auto;
+      border-radius: 20px;
+      box-shadow: 13px 13px 20px #cbced1,
+                  -13px -13px 20px #ffffff;
+    }
+
+    .signup-container h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    .input-field {
+      margin-bottom: 20px;
+    }
+
+    .input-field input {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: none;
+      border-radius: 10px;
+      box-shadow: inset 8px 8px 8px #cbced1,
+                  inset -8px -8px 8px #ffffff;
+      outline: none;
+      background: #ecf0f3;
+    }
+
+    .input-field label {
+      display: block;
+      margin-bottom: 5px;
+      color: #666;
+    }
+
+    .error {
+      color: red;
+      font-size: 12px;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .signup-btn {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      background: #03a9f4;
+      color: white;
+      font-weight: bold;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .signup-btn:hover {
+      background: #0288d1;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .login-link a {
+      text-decoration: none;
+      color: #03a9f4;
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-container">
+    <h2>Create Account</h2>
+    <form id="signupForm">
+      <div class="input-field">
+        <label for="fullname">Full Name</label>
+        <input type="text" id="fullname" placeholder="Your name" />
+        <span class="error" id="nameError">Name must be at least 3 characters</span>
+      </div>
+
+      <div class="input-field">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Enter email" />
+        <span class="error" id="emailError">Enter a valid email</span>
+      </div>
+
+      <div class="input-field">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Minimum 6 characters" />
+        <span class="error" id="passwordError">Password must be at least 6 characters</span>
+      </div>
+
+      <div class="input-field">
+        <label for="confirm-password">Confirm Password</label>
+        <input type="password" id="confirm-password" placeholder="Confirm password" />
+        <span class="error" id="confirmError">Passwords do not match</span>
+      </div>
+
+      <button type="submit" class="signup-btn">Sign Up</button>
+    </form>
+    <div class="login-link">
+      Already have an account? <a href="LOGIN.html">Login</a>
+    </div>
+  </div>
+
+  <!-- Firebase Scripts -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+   
+
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyAnJ-Xaf0knJSCjQs_wof5fzHH2T0flGXI",
+  authDomain: "the-visual-vault-a8c2a.firebaseapp.com",
+  projectId: "the-visual-vault-a8c2a",
+  storageBucket: "the-visual-vault-a8c2a.firebasestorage.app",
+  messagingSenderId: "429778646090",
+  appId: "1:429778646090:web:993242c8dc2b6f3209a2b3",
+//   measurementId: "G-TQDDPNQ6K4"
+};
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    document.getElementById('signupForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      document.querySelectorAll('.error').forEach(error => error.style.display = 'none');
+
+      const fullname = document.getElementById('fullname').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
+
+      let valid = true;
+
+      if (fullname.length < 3) {
+        document.getElementById('nameError').style.display = 'block';
+        valid = false;
+      }
+
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(email)) {
+        document.getElementById('emailError').style.display = 'block';
+        valid = false;
+      }
+
+      if (password.length < 6) {
+        document.getElementById('passwordError').style.display = 'block';
+        valid = false;
+      }
+
+      if (password !== confirmPassword) {
+        document.getElementById('confirmError').style.display = 'block';
+        valid = false;
+      }
+
+      if (!valid) return;
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(userCredential.user, { displayName: fullname });
+
+        alert('Account created successfully!');
+        window.location.href = "PROJECT.html";
+      } catch (error) {
+        alert(error.message || "Error creating account.");
+      }
+    });
+  </script>
+</body>
+</html>

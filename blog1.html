@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Page</title>
+    <link rel="stylesheet" href="blog.css">
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+</head>
+
+<body>
+    <!-- Navbar and Header Content Remain the Same -->
+    <header>
+        <!-- Your Existing Navbar and Quote Section -->
+    </header>
+
+    <main>
+        <!-- Blog Content -->
+        <div class="join-us-container">
+            <h2 class="title">Join Us - Upload Images</h2>
+            <div class="upload-area">
+                <div class="upload-icon">
+                    <iconify-icon icon="solar:gallery-bold" width="80" height="80" class="left"></iconify-icon>
+                    <iconify-icon icon="solar:gallery-bold" width="80" height="80"></iconify-icon>
+                    <iconify-icon icon="solar:gallery-bold" width="80" height="80" class="right"></iconify-icon>
+                </div>
+                <div class="upload-text">Choose your images to upload</div>
+                <input type="file" id="fileInput" class="file-input" multiple accept="image/*">
+                <button class="select-files-btn" onclick="document.getElementById('fileInput').click()">
+                    Select Images
+                </button>
+            </div>
+            <div class="error-message" id="errorMessage"></div>
+            <div class="image-grid" id="imageGrid"></div>
+        </div>
+
+
+        <a href="user3.html">user3</a>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileInput = document.getElementById('fileInput');
+            const errorMessage = document.getElementById('errorMessage');
+            const imageGrid = document.getElementById('imageGrid');
+    
+            fileInput.addEventListener('change', handleFiles);
+    
+            function handleFiles(e) {
+                const files = Array.from(e.target.files);
+    
+                files.forEach(file => {
+                    if (validateFile(file)) {
+                        displayImage(file);
+                        saveToLocalStorage(file);
+                    }
+                });
+    
+                fileInput.value = ''; // Clear file input for re-selection
+            }
+    
+            function validateFile(file) {
+                if (!file.type.startsWith('image/')) {
+                    showError('Please upload only image files.');
+                    return false;
+                }
+    
+                if (file.size > 5 * 1024 * 1024) { // 5MB size limit
+                    showError('File size should be less than 5MB.');
+                    return false;
+                }
+    
+                hideError();
+                return true;
+            }
+    
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                setTimeout(() => (errorMessage.style.display = 'none'), 3000);
+            }
+    
+            function hideError() {
+                errorMessage.style.display = 'none';
+            }
+    
+            function displayImage(file) {
+                const reader = new FileReader();
+    
+                reader.onload = function (e) {
+                    const div = document.createElement('div');
+                    div.className = 'image-item';
+    
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.alt = file.name;
+    
+                    const removeBtn = document.createElement('button');
+                    removeBtn.className = 'remove-btn';
+                    removeBtn.textContent = '×';
+                    removeBtn.onclick = function () {
+                        div.remove();
+                        removeFromLocalStorage(file.name);
+                    };
+    
+                    const nameDiv = document.createElement('div');
+                    nameDiv.className = 'image-name';
+                    nameDiv.textContent = file.name;
+    
+                    div.appendChild(img);
+                    div.appendChild(removeBtn);
+                    div.appendChild(nameDiv);
+                    imageGrid.appendChild(div);
+                };
+    
+                reader.readAsDataURL(file);
+            }
+    
+            function saveToLocalStorage(file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const images = JSON.parse(localStorage.getItem('uploadedImages')) || [];
+                    images.push({ name: file.name, dataUrl: e.target.result });
+                    localStorage.setItem('uploadedImages', JSON.stringify(images));
+                };
+                reader.readAsDataURL(file);
+            }
+    
+            function removeFromLocalStorage(name) {
+                const images = JSON.parse(localStorage.getItem('uploadedImages')) || [];
+                const updatedImages = images.filter(image => image.name !== name);
+                localStorage.setItem('uploadedImages', JSON.stringify(updatedImages));
+            }
+        });
+    </script>
+        
+
+</body>
+
+</html>

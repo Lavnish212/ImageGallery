@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login Form</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+
+    <style>
+        *, *:before, *:after {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #bac8ff;
+        }
+
+        .background {
+            width: 430px;
+            height: 520px;
+            position: absolute;
+            transform: translate(-50%,-50%);
+            left: 50%;
+            top: 50%;
+        }
+
+        .background .shape {
+            height: 200px;
+            width: 200px;
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .shape:first-child {
+            background: linear-gradient(#1845ad, #23a2f6);
+            left: -80px;
+            top: -80px;
+        }
+
+        .shape:last-child {
+            background: linear-gradient(to right, #ff512f, #f09819);
+            right: -30px;
+            bottom: -80px;
+        }
+
+        form {
+            height: 520px;
+            width: 400px;
+            background-color: rgba(255,255,255,0.13);
+            position: absolute;
+            transform: translate(-50%,-50%);
+            top: 50%;
+            left: 50%;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.1);
+            box-shadow: 0 0 40px rgba(8,7,16,0.6);
+            padding: 50px 35px;
+        }
+
+        form * {
+            font-family: 'Poppins',sans-serif;
+            color: #2E3135;
+            letter-spacing: 0.5px;
+            outline: none;
+            border: none;
+        }
+
+        form h3 {
+            font-size: 32px;
+            font-weight: 500;
+            line-height: 42px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 30px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        input {
+            display: block;
+            height: 50px;
+            width: 100%;
+            background-color: rgba(255,255,255,0.07);
+            border-radius: 3px;
+            padding: 0 10px;
+            margin-top: 8px;
+            font-size: 14px;
+            font-weight: 300;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        ::placeholder {
+            color: #2E3135;
+        }
+
+        button {
+            margin-top: 50px;
+            width: 100%;
+            background-color: #ffffff;
+            color: #080710;
+            padding: 15px 0;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: rgba(255,255,255,0.3);
+            color: gray;
+        }
+
+        .signup-link {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .signup-link a {
+            color: #2E3135;
+            text-decoration: underline;
+        }
+
+        .error {
+            color: #ff3333;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <form id="loginForm">
+        <h3>Login Here</h3>
+
+        <label for="email">Email</label>
+        <input type="text" placeholder="Enter your email" id="email">
+
+        <label for="password">Password</label>
+        <input type="password" placeholder="Password" id="password">
+
+        <div id="loginError" class="error"></div>
+
+        <button type="submit">Log In</button>
+
+        <div class="signup-link">
+            <a href="sign up.html">New here? Create Account</a>
+        </div>
+    </form>
+
+    <script>
+        // Your Firebase configuration
+        const firebaseConfig = {
+  apiKey: "AIzaSyAnJ-Xaf0knJSCjQs_wof5fzHH2T0flGXI",
+  authDomain: "the-visual-vault-a8c2a.firebaseapp.com",
+  projectId: "the-visual-vault-a8c2a",
+  storageBucket: "the-visual-vault-a8c2a.firebasestorage.app",
+  messagingSenderId: "429778646090",
+  appId: "1:429778646090:web:993242c8dc2b6f3209a2b3",
+//   measurementId: "G-TQDDPNQ6K4"
+};
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const errorDiv = document.getElementById('loginError');
+
+            firebase.auth().signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    window.location.href = 'PROJECT.HTML';
+                })
+                .catch((error) => {
+                    errorDiv.textContent = error.message;
+                    errorDiv.style.display = 'block';
+                });
+        });
+    </script>
+</body>
+</html>

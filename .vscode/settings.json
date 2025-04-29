@@ -1,0 +1,8 @@
+{
+    "launch": {
+        "workbench.editor.showtabs":true,
+        "workbench.editor.enablePreview": true,
+
+        },
+        "liveServer.settings.port": 5502
+}
