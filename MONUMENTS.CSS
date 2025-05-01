@@ -12,7 +12,7 @@ body
     z-index: -5;
 }
 a {
-    text-decoration: none;
+    text-decoration: NONE;
     color: #2E3135;
     /* background-color: aquamarine; */
 }
