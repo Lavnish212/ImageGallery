@@ -8,7 +8,116 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        
+        .policy-container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 40px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .policy-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #ff6b95;
+        }
+
+        .policy-header h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .policy-header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .policy-section {
+            margin-bottom: 30px;
+        }
+
+        .policy-section h2 {
+            color: #ff6b95;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .policy-section h3 {
+            color: #444;
+            font-size: 1.4em;
+            margin: 20px 0 10px;
+        }
+
+        .policy-section p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .policy-section ul {
+            list-style-type: none;
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .policy-section ul li {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .policy-section ul li::before {
+            content: "•";
+            color: #ff6b95;
+            font-weight: bold;
+            position: absolute;
+            left: -20px;
+        }
+
+        .contact-info {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        .contact-info h3 {
+            color: #ff6b95;
+            margin-bottom: 15px;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #ff6b95;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: #ff4f7b;
+            transform: translateY(-3px);
+        }
+
     </style>
 </head>
 
