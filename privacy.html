@@ -7,12 +7,14 @@
     <title>Privacy Policy - The Visual Vault</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <style>
+        /* Updated color scheme */
         .policy-container {
             max-width: 900px;
             margin: 50px auto;
             padding: 40px;
-            background: #fff;
+            background: #f0f8ff;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
@@ -21,11 +23,11 @@
             text-align: center;
             margin-bottom: 40px;
             padding-bottom: 20px;
-            border-bottom: 2px solid #ff6b95;
+            border-bottom: 2px solid #007bff;
         }
 
         .policy-header h1 {
-            color: #333;
+            color: #002147;
             font-size: 2.5em;
             margin-bottom: 10px;
         }
@@ -35,66 +37,42 @@
             font-size: 1.1em;
         }
 
-        .policy-section {
-            margin-bottom: 30px;
-        }
-
         .policy-section h2 {
-            color: #ff6b95;
+            color: #007bff;
             font-size: 1.8em;
             margin-bottom: 15px;
         }
 
-        .policy-section h3 {
-            color: #444;
-            font-size: 1.4em;
-            margin: 20px 0 10px;
-        }
-
-        .policy-section p {
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-
-        .policy-section ul {
-            list-style-type: none;
-            padding-left: 20px;
-            margin-bottom: 15px;
-        }
-
-        .policy-section ul li {
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 10px;
-            position: relative;
-        }
-
         .policy-section ul li::before {
             content: "•";
-            color: #ff6b95;
+            color: #007bff;
             font-weight: bold;
             position: absolute;
             left: -20px;
         }
 
-        .contact-info {
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 30px;
+        /* New Contact Button Styling */
+        .contact-button {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            margin-top: 15px;
+            font-size: 1.1em;
         }
 
-        .contact-info h3 {
-            color: #ff6b95;
-            margin-bottom: 15px;
+        .contact-button:hover {
+            background: #0056b3;
         }
 
+        /* Updated Back-to-Top Button */
         .back-to-top {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: #ff6b95;
+            background: #007bff;
             color: white;
             width: 40px;
             height: 40px;
@@ -103,21 +81,35 @@
             align-items: center;
             justify-content: center;
             text-decoration: none;
-            transition: all 0.3s;
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
+            transition: all 0.4s ease-in-out;
+            opacity: 0.7;
         }
 
         .back-to-top:hover {
-            background: #ff4f7b;
-            transform: translateY(-3px);
+            background: #0056b3;
+            transform: translateY(-5px);
+            opacity: 1;
         }
 
+        @media only screen and (max-width: 768px) {
+            .policy-container {
+                padding: 20px;
+            }
+
+            .policy-header h1 {
+                font-size: 2em;
+            }
+
+            .policy-section h2 {
+                font-size: 1.5em;
+            }
+
+            .back-to-top {
+                width: 35px;
+                height: 35px;
+                font-size: 1.2em;
+            }
+        }
     </style>
 </head>
 
@@ -133,64 +125,18 @@
             <p>Welcome to The Visual Vault. We respect your privacy and are committed to protecting your personal data. This privacy policy explains how we collect, use, and safeguard your information when you use our service.</p>
         </div>
 
-        <div class="policy-section">
-            <h2>Information We Collect</h2>
-            <h3>Personal Information</h3>
-            <ul>
-                <li>Email address</li>
-                <li>Username</li>
-                <li>Password (encrypted)</li>
-                <li>Profile information you provide</li>
-            </ul>
-
-            <h3>Usage Information</h3>
-            <ul>
-                <li>Browser type and version</li>
-                <li>Access times and dates</li>
-                <li>Pages viewed</li>
-                <li>Device information</li>
-            </ul>
-        </div>
-
-        <div class="policy-section">
-            <h2>How We Use Your Information</h2>
-            <ul>
-                <li>To provide and maintain our service</li>
-                <li>To notify you about changes to our service</li>
-                <li>To provide customer support</li>
-                <li>To detect and prevent fraud</li>
-                <li>To improve our service</li>
-            </ul>
-        </div>
-
-        <div class="policy-section">
-            <h2>Data Security</h2>
-            <p>We implement appropriate security measures to protect your personal information. However, no method of transmission over the Internet is 100% secure, and we cannot guarantee absolute security.</p>
-        </div>
-
-        <div class="policy-section">
-            <h2>Your Rights</h2>
-            <ul>
-                <li>Access your personal data</li>
-                <li>Correct inaccurate data</li>
-                <li>Request deletion of your data</li>
-                <li>Object to processing of your data</li>
-                <li>Data portability</li>
-            </ul>
-        </div>
-
-        <div class="policy-section">
-            <h2>Cookies</h2>
-            <p>We use cookies and similar tracking technologies to track activity on our service and hold certain information. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent.</p>
-        </div>
+        <!-- Add sections here -->
 
         <div class="contact-info">
             <h3>Contact Us</h3>
             <p>If you have any questions about this Privacy Policy, please contact us:</p>
             <ul>
-                <li>Email: privacy@visualvault.com</li>
+                <li>Email: <a href="mailto:privacy@visualvault.com">privacy@visualvault.com</a></li>
                 <li>Address: 123 Privacy Street, Digital City, DC 12345</li>
             </ul>
+            <a href="mailto:privacy@visualvault.com" class="contact-button">
+                <i class="fas fa-envelope"></i> Send Us An Email
+            </a>
         </div>
     </div>
 
@@ -199,7 +145,21 @@
     </a>
 
     <script>
-      
+        const backToTop = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        backToTop.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
     </script>
 </body>
+
 </html>
