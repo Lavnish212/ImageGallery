@@ -1,3 +1,4 @@
+
 # 🖼️ Image Gallery
 
 A simple and elegant web-based image gallery to view, like, and manage images.
@@ -19,3 +20,4 @@ git clone https://github.com/Lavnish212/ImageGallery.git
 
 # Navigate to the project directory
 cd image-gallery
+
