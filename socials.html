@@ -1,94 +1,382 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SOCIALS</title>
-  <style>
-   
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOCIALS - THE VISUAL VAULT</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC&family=Poppins:wght@300;400;600&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: lavender;
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .Navbar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            background-color: #bac8ff;
+            width: 100%;
+            height: 60px;
+            font-size: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            z-index: 20;
+        }
+        
+        .Nav-links {
+            display: flex;
+            gap: 2rem;
+            padding-right: 39px;
+        }
+        
+        .Nav-link,
+        .dropdown li {
+            list-style: none;
+            font-weight: 600;
+            cursor: pointer;
+            height: 100%;
+            padding: 0.5rem 0.75rem;
+            font-family: "Playfair Display SC", serif;
+            font-weight: 400;
+            font-style: normal;
+            transition: all 0.3s ease;
+        }
+        
+        a {
+            text-decoration: none;
+            color: #2E3135;
+            transition: color 0.3s ease;
+        }
+        
+        li:hover a {
+            color: #fff;
+        }
+        
+        .dropdown {
+            position: absolute;
+            background-color: #2E3135;
+            padding: 0.5rem 0;
+            margin: 0.5rem -0.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 1);
+            border-radius: 0.5rem;
+            display: none;
+        }
+        
+        .Nav-link:hover {
+            background-color: #2E3135;
+            color: #fff;
+            border-radius: 0.5rem;
+        }
+        
+        .picture {
+            width: 100%;
+            height: 600px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            margin-top: 60px;
+            overflow: hidden;
+        }
+        
+        .picture img {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+            position: relative;
+            z-index: -5;
+        }
+        
+        h1 {
+            position: absolute;
+            z-index: 56;
+            color: brown;
+            font-size: 2.5rem;
+            text-align: center;
+            background-color: rgba(255, 242, 215, 0.7);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 80%;
+        }
+        
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        h2 {
+            text-align: center;
+            margin: 1.5rem auto;
+            color: black;
+            line-height: 1.8;
+            max-width: 80%;
+        }
+        
+        p {
+            text-align: justify;
+            margin: 1.5rem auto;
+            font-size: 1.2rem;
+            color: black;
+            max-width: 80%;
+            line-height: 1.8;
+        }
+        
+        .section-title {
+            color: brown;
+            font-size: 1.8rem;
+            text-align: center;
+            margin: 3rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid brown;
+        }
+        
+        .benefits-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .benefit-item {
+            flex: 0 0 calc(33.333% - 2rem);
+            min-width: 300px;
+            position: relative;
+            transition: transform 0.3s ease;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .benefit-item:hover {
+            transform: translateY(-10px);
+        }
+        
+        .benifit {
+            height: 250px;
+            width: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .benefit-item:hover .benifit {
+            transform: scale(1.05);
+        }
+        
+        .partner-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 4rem;
+            margin: 3rem 0;
+        }
+        
+        .partner-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 400px;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 16px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .partner-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .custom-round {
+            border-radius: 50%;
+            width: 200px; 
+            height: 200px; 
+            object-fit: cover;
+            border: 5px solid #f67d05;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        .partner-name {
+            color: #f67d05;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .partner-title {
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .partner-about {
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .partner-contact {
+            color: #3c2a21;
+            margin-bottom: 0.5rem;
+        }
+        
+        .partner-link a {
+            color: blue;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        
+        .partner-link a:hover {
+            color: #f67d05;
+            text-decoration: underline;
+        }
+        
+        .quote {
+            font-style: italic;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            text-align: center;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: rgba(186, 200, 255, 0.2);
+            border-left: 4px solid #bac8ff;
+            border-radius: 8px;
+            max-width: 80%;
+        }
+        
+        @media (max-width: 768px) {
+            .Navbar {
+                justify-content: center;
+            }
+            
+            .Nav-links {
+                gap: 1rem;
+                padding-right: 0;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .partner-container {
+                gap: 2rem;
+            }
+            
+            .benefit-item {
+                flex: 0 0 100%;
+            }
+            
+            p, h2 {
+                max-width: 95%;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <nav class="Navbar">
-      <ul class="Nav-links">
-        <li class="Nav-link"><a href="PROJECT.HTML">Home</a></li>
-        <li class="Nav-link"><a href="socials.html">Socials</a></li>
-        <li class="Nav-link"><a href="blog.html">Blog</a></li>
-        <li class="Nav-link"><a href="About.html">About</a></li>
-        <li class="Nav-link"><a href="login.html">Login</a></li>
-      </ul>
-    </nav>
-
-    <div class="picture">
-      <img src="https://media.istockphoto.com/id/1405631385/vector/cmyk-ink-background.jpg?s=612x612&w=0&k=20&c=c7ngg_4X1n801CnuQukOIb6X70GbauPo5jEFosioIvM=" alt="Banner">
-      <h1>PARTNERS OF "THE VISUAL VAULT"</h1>
-    </div>
-  </header>
-
-  <main>
-    <h2>
-      "A gallery is not just a collection of images; it is a sanctuary where stories unfold, emotions resonate..."
-    </h2>
-    <p>
-      As the partners of "THE VISUAL VAULT", we hope to create an image gallery that provides the best images with unique filters, easy accessibility, and covers important and repeated searches made by students.
-    </p>
-
-    <p>
-      We chose to create an image gallery as our project because it combines creativity with technical skill, allowing us to explore both design and functionality... an ideal choice for our project.
-    </p>
-
-    <p>
-      With the introduction of our image gallery, we hope to change the way people interact with visual content online... share through the power of imagery.
-    </p>
-
-    <p>Through this image gallery project, we want to showcase and enhance:</p>
-
-    <div class="container">
-      <img src="https://i.ytimg.com/vi/4Uu9PXhEXHU/sddefault.jpg" alt="creative inspiration" class="benifit">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvZKjR2wbvkv5OHTkuaY_arqSE5Kr1ALZl6Q&s.jpg" alt="fun learning" class="benifit">
-      <img src="https://www.investopedia.com/thmb/uDGDPxBbTGCjsHLlgv0HC-IE8NY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/technical-skills.asp-final-2bfdf377f91841919654e2c42b7cb0e2.png" alt="technical skills" class="benifit">
-    </div>
-
-    <div class="container">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLcRAzZZb4PhvuHTZ6uFMFFw6tzF6KAnqcRg&s.jpg" alt="teamwork" class="benifit">
-      <img src="https://www.coachingselect.com/public/blogs/blog-16443008081.jpg" alt="career exploration" class="benifit">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3szeOUd8Q2sjBEfNwgH6IPhRjCfEPWbrR1Q&s.jpg" alt="thinking" class="benifit">
-    </div>
-
-    <h2 class="title">DESCRIPTION OF THE PARTNERS:</h2>
-
-    <div class="partner-section">
-      <img src="ishitamahajan.jpg" class="custom-round" alt="Ishita Mahajan">
-      <div class="text">
-        <p style="color: #f67d05;"><b>ISHITA MAHAJAN</b></p>
-        <p><b>Partner 1</b></p>
-        <p><i><b>About:</b></i> Brilliant handling of Legal Documentation and amazing choice of Filters and Fonts.</p>
-        <p><i><b>Contact:</b></i> <span style="color: #3c2a21;">ishita1245.becse24@chitkara.edu.in</span></p>
-        <p><a href="https://www.linkedin.com/in/ishita-mahajan-731a3a324/">LinkedIn Profile</a></p>
-      </div>
-    </div>
-
-    <div class="partner-section">
-      <img src="lavnish.jpg" class="custom-round" alt="Lavnish Kumar">
-      <div class="text">
-        <p style="color: #f67d05;"><b>LAVNISH KUMAR</b></p>
-        <p><b>Partner 2</b></p>
-        <p><i><b>About:</b></i> Played a crucial role in the Design management and Expert in handling technical Details.</p>
-        <p><i><b>Contact:</b></i> <span style="color: #3c2a21;">lavnish1255.becse24@chitkara.edu.in</span></p>
-        <p><a href="https://www.linkedin.com/in/ishita-mahajan-731a3a324/">LinkedIn Profile</a></p>
-      </div>
-    </div>
-  </main>
+    <header>
+        <nav class="Navbar">
+            <ul class="Nav-links">
+                <li class="Nav-link"><a href="PROJECT.HTML">Home</a></li>
+                <li class="Nav-link"><a href="socials.html">Socials</a></li>
+                <li class="Nav-link"><a href="blog.html">Blog</a></li>
+                <li class="Nav-link"><a href="About.html">About</a></li>
+                <li class="Nav-link"><a href="login.html">Login</a></li>
+            </ul>
+        </nav>
+        <div class="picture">
+            <img src="https://media.istockphoto.com/id/1405631385/vector/cmyk-ink-background.jpg?s=612x612&w=0&k=20&c=c7ngg_4X1n801CnuQukOIb6X70GbauPo5jEFosioIvM=" alt="Background image">
+            <h1>PARTNERS OF "THE VISUAL VAULT"</h1>
+        </div>
+    </header>
+    
+    <main>
+        <div class="quote">
+            "A gallery is not just a collection of images; it is a sanctuary where stories unfold, emotions resonate, and diverse viewpoints converge. Each piece invites contemplation and dialogue, reminding us of the power of art to challenge perceptions, evoke memories, and foster a sense of shared humanity in our ever-changing world."
+        </div>
+        
+        <p>
+            As the partners of "THE VISUAL VAULT", we hope to create an image gallery that provides the best images with unique filters, easy accessibility, and adding almost all the important repeated searches made by students, so as to help them and make the search trouble-free.
+        </p>
+        
+        <p>
+            We chose to create an image gallery as our project because it combines creativity with technical skill, allowing us to explore both design and functionality in a single endeavor. An image gallery offers the opportunity to work with visual elements, enhancing our understanding of layout, responsiveness, and user interaction. 
+            By incorporating features like filtering, sorting, and lightbox effects, we can focus on creating a seamless user experience while also honing our abilities in frontend development and API integration. Additionally, this project serves as an impressive showcase of our work, demonstrating our commitment to creating engaging 
+            and user-friendly web applications. Ultimately, building an image gallery allows us to merge our passion for aesthetics with practical coding skills, making it an ideal choice for our project.
+        </p>
+        
+        <p>
+            Moreover, an image gallery is a versatile project that can easily be expanded or modified, giving us room to innovate and iterate based on user feedback. As we build the gallery, we are also focusing on best practices for accessibility and performance optimization, which are essential in today's web development landscape. 
+            This project not only enriches our portfolio but also equips us with valuable skills that are directly applicable in real-world scenarios, making it a rewarding choice for our team.
+        </p>
+        
+        <p>
+            With the introduction of our image gallery, we hope to change the way people interact with visual content online by making it more accessible, engaging, and immersive. We aim to create a platform that encourages creativity and self-expression, allowing artists, photographers, and content creators to showcase their work effectively. 
+            By prioritizing user experience and accessibility, we hope to ensure that everyone, regardless of ability, can enjoy and appreciate the visual storytelling behind each image.
+        </p>
+        
+        <p>
+            Additionally, we want to foster a sense of community by integrating features that allow users to share their thoughts and experiences related to the images. By promoting diverse perspectives and voices through our gallery, we hope to cultivate a richer understanding of art and culture. Ultimately, we aspire to contribute to a more visually literate world where people can connect, inspire, and share through the power of imagery.
+        </p>
+        
+        <h2 class="section-title">Through this image gallery project, we want to showcase and enhance:</h2>
+        
+        <div class="benefits-container">
+            <div class="benefit-item">
+                <img src="https://i.ytimg.com/vi/4Uu9PXhEXHU/sddefault.jpg" alt="creative inspiration" class="benifit">
+            </div>
+            <div class="benefit-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvZKjR2wbvkv5OHTkuaY_arqSE5Kr1ALZl6Q&s.jpg" alt="fun learning" class="benifit">
+            </div>
+            <div class="benefit-item">
+                <img src="https://www.investopedia.com/thmb/uDGDPxBbTGCjsHLlgv0HC-IE8NY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/technical-skills.asp-final-2bfdf377f91841919654e2c42b7cb0e2.png" alt="technical skills" class="benifit">
+            </div>
+            <div class="benefit-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLcRAzZZb4PhvuHTZ6uFMFFw6tzF6KAnqcRg&s.jpg" alt="teamwork" class="benifit">
+            </div>
+            <div class="benefit-item">
+                <img src="https://www.coachingselect.com/public/blogs/blog-16443008081.jpg" alt="career exploration" class="benifit">
+            </div>
+            <div class="benefit-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3szeOUd8Q2sjBEfNwgH6IPhRjCfEPWbrR1Q&s.jpg" alt="thinking" class="benifit">
+            </div>
+        </div>
+        
+        <h2 class="section-title">DESCRIPTION OF THE PARTNERS</h2>
+        
+        <div class="partner-container">
+            <div class="partner-card">
+                <img src="ishitamahajan.jpg" class="custom-round" alt="Ishita Mahajan">
+                <div class="partner-info">
+                    <h3 class="partner-name">ISHITA MAHAJAN</h3>
+                    <p class="partner-title">Partner 1</p>
+                    <p class="partner-about"><b>About:</b> Brilliant handling of Legal Documentation and amazing choice of Filters and Fonts.</p>
+                    <p class="partner-contact"><b>Contact:</b> ishita1245.becse24@chitkara.edu.in</p>
+                    <p class="partner-link"><a href="https://www.linkedin.com/in/ishita-mahajan-731a3a324/">LinkedIn Profile</a></p>
+                </div>
+            </div>
+            
+            <div class="partner-card">
+                <img src="lavnish.jpg" class="custom-round" alt="Lavnish Kumar">
+                <div class="partner-info">
+                    <h3 class="partner-name">LAVNISH KUMAR</h3>
+                    <p class="partner-title">Partner 2</p>
+                    <p class="partner-about"><b>About:</b> Played a crucial role in the Design management and Expert in handling technical Details.</p>
+                    <p class="partner-contact"><b>Contact:</b> lavnish1255.becse24@chitkara.edu.in</p>
+                    <p class="partner-link"><a href="https://www.linkedin.com/in/ishita-mahajan-731a3a324/">LinkedIn Profile</a></p>
+                </div>
+            </div>
+        </div>
+    </main>
 </body>
-    <br>
-    <br>
-    <br>
-    <div class="container">
-      
-        </div>
-        </div>
-        </main>
-    </body>
-
 </html>
